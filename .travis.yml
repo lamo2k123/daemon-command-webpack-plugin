@@ -1,0 +1,19 @@
+language: node_js
+sudo: false
+node_js:
+  - 6
+
+cache:
+  directories:
+    - node_modules
+
+script:
+  - npm run build
+
+deploy:
+  provider: npm
+  email: lamo2k123@gmail.com
+  api_key: $NPM_API_KEY
+  on:
+    tags: true
+    repo: lamo2k123/daemon-command-webpack-plugin

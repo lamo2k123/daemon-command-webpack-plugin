@@ -1,0 +1,41 @@
+{
+    "name": "daemon-command-webpack-plugin",
+    "version": "1.0.0",
+    "description": "Run and restart npm commands after emit file webpack builds",
+    "keywords": [
+        "webpack",
+        "plugin",
+        "npm",
+        "command",
+        "commands",
+        "hmr",
+        "daemon",
+        "watch"
+    ],
+    "homepage": "https://github.com/lamo2k123/daemon-command-webpack-plugin",
+    "bugs": {
+        "url": "https://github.com/lamo2k123/daemon-command-webpack-plugin/issues",
+        "email": "lamo2k123@gmail.com"
+    },
+    "license": "MIT",
+    "author": {
+        "name": "Aleksey Novikov",
+        "email": "lamo2k123@gmail.com"
+    },
+    "contributors": [],
+    "main": "index.js",
+    "repository": "lamo2k123/daemon-command-webpack-plugin",
+    "scripts": {
+        "watch": "babel ./src/main.js -w -o ./index.js",
+        "build": "babel ./src/main.js -o ./index.js"
+    },
+    "devDependencies": {
+        "babel-cli": "6.11.4",
+        "babel-plugin-add-module-exports": "0.2.1",
+        "babel-plugin-transform-es2015-arrow-functions": "6.8.0",
+        "babel-plugin-transform-es2015-block-scoping": "6.10.1",
+        "babel-plugin-transform-es2015-classes": "6.9.0",
+        "babel-plugin-transform-es2015-modules-commonjs": "6.10.3",
+        "babel-plugin-transform-es2015-template-literals": "6.8.0"
+    }
+}

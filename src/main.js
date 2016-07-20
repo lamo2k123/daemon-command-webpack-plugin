@@ -5,7 +5,6 @@ class DaemonCommandWebpackPlugin {
     constructor(command, options) {
         this.command =command;
         this.options = options;
-        this._kill = 0;
 
         process.on('SIGINT', this.kill);
     }
@@ -16,7 +15,7 @@ class DaemonCommandWebpackPlugin {
     };
 
     spawning = () => {
-        if(!this._kill && this.command) {
+        if(this.command) {
             this._process = spawn('npm', ['run', this.command], {
                 ...this.options,
                 shell   : true,
@@ -32,9 +31,11 @@ class DaemonCommandWebpackPlugin {
 
     afterEmit = (compilation, next) => {
         if(this._watch) {
-            this
-                .kill()
-                .spawning();
+            if(this._process) {
+                this.kill();
+            } else {
+                this.spawning();
+            }
         }
 
         next(null)
@@ -51,8 +52,6 @@ class DaemonCommandWebpackPlugin {
     kill = () => {
         if(this._process && this._process.pid) {
             process.kill(-this._process.pid);
-
-            this._kill++;
         }
 
         return this;
@@ -60,4 +59,4 @@ class DaemonCommandWebpackPlugin {
 
 }
 
-export default DaemonCommands;
+export default DaemonCommandWebpackPlugin;

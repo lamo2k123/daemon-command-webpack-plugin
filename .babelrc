@@ -1,14 +1,10 @@
 {
     "plugins": [
         "add-module-exports",
-        "transform-es2015-spread",
         "transform-class-properties",
-        "transform-es2015-block-scoped-functions",
         "transform-object-rest-spread",
         "transform-es2015-classes",
-        "transform-es2015-block-scoping",
-        "transform-es2015-arrow-functions",
         "transform-es2015-modules-commonjs",
-        "transform-es2015-template-literals"
+        "transform-es2015-arrow-functions"
     ]
 }

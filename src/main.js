@@ -14,6 +14,18 @@ class DaemonCommandWebpackPlugin {
         compiler.plugin('watch-run', this.watchRun);
     };
 
+    debounce = () => {
+        if(this.options.debounce) {
+            if(this._debounce) {
+                clearTimeout(this._debounce);
+            }
+
+            this._debounce = setTimeout(this.spawning, this.options.debounce);
+        } else {
+            this.spawning();
+        }
+    };
+
     spawning = () => {
         if(this.command) {
             this._process = spawn('npm', ['run', this.command], {
@@ -23,7 +35,7 @@ class DaemonCommandWebpackPlugin {
                 detached: true
             });
 
-            this._process.on('close', this.spawning);
+            this._process.on('close', this.debounce);
         }
 
         return this;
@@ -34,7 +46,7 @@ class DaemonCommandWebpackPlugin {
             if(this._process) {
                 this.kill();
             } else {
-                this.spawning();
+                this.debounce();
             }
         }
 
@@ -52,6 +64,8 @@ class DaemonCommandWebpackPlugin {
     kill = () => {
         if(this._process && this._process.pid) {
             process.kill(-this._process.pid);
+
+            delete this._process;
         }
 
         return this;

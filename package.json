@@ -1,6 +1,6 @@
 {
   "name": "daemon-command-webpack-plugin",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Run and restart npm commands after emit file webpack builds",
   "keywords": [
     "webpack",

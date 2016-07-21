@@ -4,7 +4,7 @@ class DaemonCommandWebpackPlugin {
 
     constructor(command, options) {
         this.command =command;
-        this.options = options;
+        this.options = options || {};
 
         process.on('SIGINT', this.kill);
     }

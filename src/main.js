@@ -1,12 +1,18 @@
 import { spawn } from 'child_process';
+import psTree from 'ps-tree';
 
 class DaemonCommandWebpackPlugin {
 
     constructor(command, options) {
-        this.command =command;
-        this.options = options || {};
+        this.command=command;
+        this.options= options || {};
+        this.exit   = false;
 
-        process.on('SIGINT', this.kill);
+        process.on('SIGINT', () => {
+            this.exit = true;
+
+            this.kill();
+        });
     }
 
     apply = compiler => {
@@ -15,14 +21,16 @@ class DaemonCommandWebpackPlugin {
     };
 
     debounce = () => {
-        if(this.options.debounce) {
-            if(this._debounce) {
-                clearTimeout(this._debounce);
-            }
+        if(!this.exit) {
+            if(this.options.debounce) {
+                if(this._debounce) {
+                    clearTimeout(this._debounce);
+                }
 
-            this._debounce = setTimeout(this.spawning, this.options.debounce);
-        } else {
-            this.spawning();
+                this._debounce = setTimeout(this.spawning, this.options.debounce);
+            } else {
+                this.spawning();
+            }
         }
     };
 
@@ -63,7 +71,21 @@ class DaemonCommandWebpackPlugin {
 
     kill = () => {
         if(this._process && this._process.pid) {
-            process.kill(-this._process.pid);
+            psTree(this._process.pid, (error, children) => {
+                if(!error) {
+                    for(let i in children) {
+                        if(children.hasOwnProperty(i)) {
+                            process.kill(children[i].PID, 'SIGINT');
+                        }
+                    }
+
+                    if(this.exit) {
+                        process.exit();
+                    }
+                } else {
+                    console.log(error);
+                }
+            });
 
             delete this._process;
         }

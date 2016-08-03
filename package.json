@@ -1,6 +1,6 @@
 {
   "name": "daemon-command-webpack-plugin",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Run and restart npm commands after emit file webpack builds",
   "keywords": [
     "webpack",
@@ -28,6 +28,9 @@
   "scripts": {
     "watch": "babel ./src/main.js -w -o ./index.js",
     "build": "babel ./src/main.js -o ./index.js"
+  },
+  "dependencies" : {
+    "ps-tree" : "1.1.0"
   },
   "devDependencies": {
     "babel-cli": "6.11.4",

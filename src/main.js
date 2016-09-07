@@ -20,8 +20,8 @@ class DaemonCommandWebpackPlugin {
         compiler.plugin('watch-run', this.watchRun);
     };
 
-    debounce = () => {
-        if(!this.exit) {
+    debounce = code => {
+        if(!this.exit && code !== 1) {
             if(this.options.debounce) {
                 if(this._debounce) {
                     clearTimeout(this._debounce);

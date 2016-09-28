@@ -4,8 +4,8 @@ import psTree from 'ps-tree';
 class DaemonCommandWebpackPlugin {
 
     constructor(command, options) {
-        this.command= command;
-        this.options= options || {};
+        this.command = command;
+        this.options = options || {};
     }
 
     apply = compiler => {
@@ -24,56 +24,68 @@ class DaemonCommandWebpackPlugin {
 
     afterEmit = (compilation, next) => {
         if(this._watch) {
-            if(this._process) {
-                this.kill();
-            } else {
-                this.debounce();
-            }
-        }
-
-        next(null)
-    };
-
-    debounce = code => {
-        if(code !== 1) {
-            if(this.options.debounce) {
-                if(this._debounce) {
-                    clearTimeout(this._debounce);
-                }
-
-                this._debounce = setTimeout(this.spawning, this.options.debounce);
-            } else {
-                this.spawning();
-            }
+            this
+                .kill()
+                .then(this.spawning)
+                .then(next);
+        } else {
+            next(null);
         }
     };
 
-    spawning = () => {
-        if(this.command) {
-            this._process = spawn('npm', ['run', this.command], {
-                ...this.options,
-                stdio : 'inherit'
-            });
+    watchOut = (out, resolve) => {
+        const data = out.toString();
 
-            this._process.on('close', this.debounce);
-            this._process.on('exit', code => {
-                if(code === 1) {
-                    this.kill();
-                }
-            });
+        if(this.options.outResolve.test(data)) {
+            resolve(null);
         }
+    }
+
+    spawning = code => {
+        return new Promise((resolve, reject) => {
+            if(code !== 1) {
+                if(this.command) {
+                    this._process = spawn('npm', ['run', this.command]);
+
+                    this._process.stdout.pipe(process.stdout);
+                    this._process.stderr.pipe(process.stderr);
+
+                    if(this.options.outResolve) {
+                        this._process.stdout.on('data', out => this.watchOut(out, resolve))
+                        this._process.stderr.on('data', out => this.watchOut(out, resolve))
+                    } else {
+                        resolve(null);
+                    }
+
+                    this._process.on('exit', code => code === 1 && resolve(null));
+                }
+            } else {
+                resolve(null)
+            }
+        })
     };
 
     kill = () => {
-        if(this._process && this._process.pid) {
-            psTree(this._process.pid, (error, childrens) => {
-                const pids = childrens.map(children => children.PID);
+        return new Promise((resolve, reject) => {
+            if(this._process && this._process.pid) {
+                psTree(this._process.pid, (error, childrens) => {
+                    if(!error) {
+                        const pids = childrens.map(children => children.PID);
+                        const kill = spawn('kill', ['-9', ...pids]);
 
-                spawn('kill', ['-9', ...pids]);
-            });
+                        kill.on('close', () => {
+                            delete this._process;
 
-            delete this._process;
-        }
+                            resolve(null);
+                        })
+                    } else {
+                        reject(error);
+                    }
+                });
+            } else {
+                resolve(null);
+            }
+        })
     }
 
 }

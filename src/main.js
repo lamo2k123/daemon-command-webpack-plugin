@@ -21,7 +21,6 @@ class DaemonCommandWebpackPlugin {
         next(null);
     };
 
-
     afterEmit = (compilation, next) => {
         if(this._watch) {
             this

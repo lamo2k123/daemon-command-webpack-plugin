@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = message => {
     let out = '[daemon-command-webpack-plugin][resolve-marker]';
 

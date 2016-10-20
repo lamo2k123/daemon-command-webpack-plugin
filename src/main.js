@@ -1,3 +1,5 @@
+'use strict';
+
 import { spawn } from 'child_process';
 import psTree from 'ps-tree';
 

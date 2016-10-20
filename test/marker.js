@@ -1,3 +1,5 @@
+'use strict';
+
 const marker = require('./../src/marker');
 
 const write = process.stdout.write;

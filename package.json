@@ -26,19 +26,14 @@
   "main": "index.js",
   "repository": "lamo2k123/daemon-command-webpack-plugin",
   "scripts": {
+    "test": "mocha",
     "watch": "babel ./src/main.js -w -o ./index.js",
     "build": "babel ./src/main.js -o ./index.js"
   },
-  "dependencies" : {
-    "ps-tree" : "1.1.0"
+  "dependencies": {
+    "ps-tree": "1.1.0"
   },
   "devDependencies": {
-    "babel-cli": "6.16.0",
-    "babel-plugin-add-module-exports": "0.2.1",
-    "babel-plugin-transform-class-properties": "6.16.0",
-    "babel-plugin-transform-object-rest-spread": "6.16.0",
-    "babel-plugin-transform-es2015-classes": "6.14.0",
-    "babel-plugin-transform-es2015-modules-commonjs": "6.16.0",
-    "babel-plugin-transform-es2015-arrow-functions": "6.8.0"
+    "mocha": "3.1.2"
   }
 }

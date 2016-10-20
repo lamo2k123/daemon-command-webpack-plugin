@@ -6,8 +6,10 @@ module.exports = message => {
     }
 
     if(process && process.stdout && typeof process.stdout.write === 'function') {
-        process.stdout.write(`${out}\n`);
-    } else {
+        process.stdout.write(`${out}\r\n`);
+    } else if(console && console.log) {
         console.log(out);
+    } else {
+        throw 'process.stdout.write and console.log undefined';
     }
 };

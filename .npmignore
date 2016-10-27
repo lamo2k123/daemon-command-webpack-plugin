@@ -2,3 +2,4 @@ src
 node_modules
 .gitignore
 .travis.yml
+yarn.lock

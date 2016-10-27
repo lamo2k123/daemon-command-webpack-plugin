@@ -12,6 +12,6 @@ module.exports = message => {
     } else if(console && console.log) {
         console.log(out);
     } else {
-        throw 'process.stdout.write and console.log undefined';
+        throw new Error('process.stdout.write and console.log undefined');
     }
 };

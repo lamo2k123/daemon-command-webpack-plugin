@@ -1,6 +1,6 @@
 'use strict';
 
-const marker = require('./../src/marker');
+const marker = require('./../marker');
 
 const write = process.stdout.write;
 const log = console.log;

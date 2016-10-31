@@ -1,8 +1,9 @@
 ## daemon-command-webpack-plugin
-[![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)][License]
-[![travis](https://img.shields.io/travis/lamo2k123/daemon-command-webpack-plugin/master.svg?maxAge=2592000)][Travis]
-[![npm](https://img.shields.io/npm/dt/daemon-command-webpack-plugin.svg?maxAge=2592000)][NPM]
-[![npm](https://img.shields.io/npm/v/daemon-command-webpack-plugin.svg?maxAge=2592000)][NPM]
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000&style=flat-square)][License]
+[![travis](https://img.shields.io/travis/lamo2k123/daemon-command-webpack-plugin/master.svg?maxAge=2592000&style=flat-square)][Travis]
+[![AppVeyor](https://img.shields.io/appveyor/ci/gruntjs/grunt.svg?maxAge=2592000&style=flat-square)][appVeyor]
+[![npm](https://img.shields.io/npm/dt/daemon-command-webpack-plugin.svg?maxAge=2592000&style=flat-square)][NPM]
+[![npm](https://img.shields.io/npm/v/daemon-command-webpack-plugin.svg?maxAge=2592000&style=flat-square)][NPM]
 
 ## Installing as a package
 Use NPM:
@@ -114,6 +115,7 @@ Use `env` to specify environment variables that will be visible to the new proce
 [License]: http://www.opensource.org/licenses/mit-license.php
 [NPM]: https://www.npmjs.com/package/daemon-command-webpack-plugin
 [Travis]: https://travis-ci.org/lamo2k123/daemon-command-webpack-plugin
+[appVeyor]: https://ci.appveyor.com/project/lamo2k123/daemon-command-webpack-plugin
 
 [String]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures#String_type
 [Object]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object

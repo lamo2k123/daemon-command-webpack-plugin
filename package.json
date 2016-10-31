@@ -1,6 +1,6 @@
 {
   "name": "daemon-command-webpack-plugin",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Run and restart npm commands after emit file webpack builds",
   "keywords": [
     "webpack",
@@ -14,8 +14,7 @@
   ],
   "homepage": "https://github.com/lamo2k123/daemon-command-webpack-plugin",
   "bugs": {
-    "url": "https://github.com/lamo2k123/daemon-command-webpack-plugin/issues",
-    "email": "lamo2k123@gmail.com"
+    "url": "https://github.com/lamo2k123/daemon-command-webpack-plugin/issues"
   },
   "license": "MIT",
   "author": {
@@ -26,12 +25,7 @@
   "main": "index.js",
   "repository": "lamo2k123/daemon-command-webpack-plugin",
   "scripts": {
-    "test": "mocha",
-    "watch": "babel ./src/main.js -w -o ./index.js",
-    "build": "babel ./src/main.js -o ./index.js"
-  },
-  "dependencies": {
-    "ps-tree": "1.1.0"
+    "test": "mocha"
   },
   "devDependencies": {
     "mocha": "3.1.2"

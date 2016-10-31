@@ -1,0 +1,15 @@
+environment:
+  matrix:
+    - node_version: "7"
+    - node_version: "6"
+    - node_version: "5"
+cache:
+  - node_modules
+build: off
+install:
+  - ps: Install-Product node $env:node_version
+  - choco install -i yarn
+  - refreshenv
+  - yarn
+test_script:
+  - yarn test

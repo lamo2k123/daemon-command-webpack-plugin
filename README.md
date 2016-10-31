@@ -1,7 +1,7 @@
 ## daemon-command-webpack-plugin
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000&style=flat-square)][License]
 [![travis](https://img.shields.io/travis/lamo2k123/daemon-command-webpack-plugin/master.svg?maxAge=2592000&style=flat-square)][Travis]
-[![AppVeyor](https://img.shields.io/appveyor/ci/gruntjs/grunt.svg?maxAge=2592000&style=flat-square)][appVeyor]
+[![AppVeyor](https://img.shields.io/appveyor/ci/lamo2k123/daemon-command-webpack-plugin.svg?maxAge=2592000&style=flat-square)][appVeyor]
 [![npm](https://img.shields.io/npm/dt/daemon-command-webpack-plugin.svg?maxAge=2592000&style=flat-square)][NPM]
 [![npm](https://img.shields.io/npm/v/daemon-command-webpack-plugin.svg?maxAge=2592000&style=flat-square)][NPM]
 

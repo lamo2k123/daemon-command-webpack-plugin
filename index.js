@@ -26,7 +26,7 @@ class DaemonCommand {
             command : 'run',
             event   : 'after-emit',
             marker  : false,
-            spawn   : null
+            spawn   : {}
         }
     }
 

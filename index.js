@@ -1,8 +1,9 @@
 'use strict';
 
+const debug = require('debug')('daemon-command');
+const path = require('path');
 const { spawn } = require('child_process');
-const killer = require('./lib/killer');
-const getPids = require('./lib/get-pids');
+const treeKill = require('tree-kill');
 
 const marker = /^\[daemon-command-webpack-plugin]\[resolve-marker]/gm;
 
@@ -18,12 +19,23 @@ class DaemonCommand {
         this.handler = this.handler.bind(this);
         this.spawning = this.spawning.bind(this);
         this.kill = this.kill.bind(this);
+        this.spawnArgs = [];
+
+        const npmExec = process.env.npm_execpath;
+        const nodeExec = process.env.npm_node_execpath;
+        const npmPathIsJs = typeof npmExec === 'string' && /\.js/.test(path.extname(npmExec));
+
+        if (!npmPathIsJs) {
+            this.execPath = npmExec;
+        }
+        else {
+            this.execPath = nodeExec || 'npm';
+            this.spawnArgs.push(npmExec);
+        }
     }
 
     get default() {
         return {
-            manager : 'npm',
-            command : 'run',
             event   : 'after-emit',
             marker  : false,
             spawn   : {}
@@ -66,7 +78,8 @@ class DaemonCommand {
             this
                 .kill()
                 .then(this.spawning)
-                .then(next);
+                .then(next)
+                .catch(console.error);
         } else {
             next(null);
         }
@@ -76,8 +89,10 @@ class DaemonCommand {
         return new Promise((resolve, reject) => {
             if(code !== 1) {
                 if(this.command) {
-                    this.process = spawn(this.options.manager, [this.options.command, this.command], this.options.spawn);
+                    let finalArgs = [...this.spawnArgs, this.command];
+                    debug('Spawning: "%s %o"', this.execPath, finalArgs);
 
+                    this.process = spawn(this.execPath, finalArgs, this.options.spawn);
                     this.process.stdout.pipe(process.stdout);
                     this.process.stderr.pipe(process.stderr);
 
@@ -85,12 +100,16 @@ class DaemonCommand {
                         this.process.stdout.on('data', chunk => {
                             const data = chunk.toString();
 
-                            marker.test(data) && resolve(null)
+                            if (marker.test(data)) {
+                                debug('Marker caught!');
+                                resolve(null);
+                            }
                         })
                     } else {
                         resolve(null);
                     }
 
+                    this.process.on('error', err => reject(err));
                     this.process.on('exit', code => code === 1 && resolve(null));
                 }
             } else {
@@ -102,19 +121,16 @@ class DaemonCommand {
     kill() {
         return new Promise((resolve, reject) => {
             if(this.process && this.process.pid) {
-                getPids(this.process.pid)
-                    .then(
-                        pids => killer(pids),
-                        reject
-                    )
-                    .then(
-                        () => {
-                            this.process = null;
-
-                            resolve(null);
-                        },
-                        reject
-                    )
+                debug('Killing: %o [%s]', this.process.spawnargs, this.process.pid)
+                treeKill(this.process.pid, 'SIGKILL', (err) => {
+                    if (err) {
+                        reject(err);
+                    }
+                    else {
+                        this.process = null;
+                        resolve(null);
+                    }
+                });
             } else {
                 resolve(null);
             }

@@ -5,6 +5,10 @@
 [![npm](https://img.shields.io/npm/dt/daemon-command-webpack-plugin.svg?maxAge=2592000&style=flat-square)][NPM]
 [![npm](https://img.shields.io/npm/v/daemon-command-webpack-plugin.svg?maxAge=2592000&style=flat-square)][NPM]
 
+This is simple webpack plugin that monitors webpack events and start or restart npm/yarn command.
+The main purpose of this plugin is to restart node process when webpack has finised rebuilding the source tree.
+It is also possible to wait for the marker to make sure the process is finished doing the job (like starting the web server)
+
 ## Installing as a package
 Use NPM:
 `npm i daemon-command-webpack-plugin -D` or `npm install daemon-command-webpack-plugin --save-dev`
@@ -19,8 +23,8 @@ Use YARN:
   "name": "me-app",
   "version": "1.0.0",
   "scripts": {
-      "start:dev:env": "node `pwd`/server/build/index.js",
-      "start:dev": "NODE_ENV=development PORT=3000 node `pwd`/server/build/index.js",
+      "start:dev:env": "node server/build/index.js",
+      "start:dev": "NODE_ENV=development PORT=3000 node server/build/index.js",
     },
 }
 ```
@@ -89,8 +93,6 @@ app.listen(8080, () => {
 ## Arguments
 * `command` [\<String\>][String] The package.json scripts command to run
 * `options` [\<Object\>][Object]
-    * `manager` [\<String\>][String] Package manager. Default: `npm`
-    * `command` [\<String\>][String] Command type. Default: `run`
     * `event` [\<String\>][String] Webpack life cycle event. Default: `after-emit`
     * `marker` [\<Boolean\>][Boolean] Resolve promise when a marker is found to stdout. Default: `false`
     * `spawn` [\<Object\>][Object] Spawn options

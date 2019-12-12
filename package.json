@@ -25,13 +25,17 @@
   "main": "index.js",
   "repository": "lamo2k123/daemon-command-webpack-plugin",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "devDependencies": {
     "mocha": "3.1.2"
   },
   "dependencies": {
     "debug": "^3.1.0",
-    "tree-kill": "^1.2.0"
-  }
+    "tree-kill": "^1.2.0",
+    "snyk": "^1.258.2"
+  },
+  "snyk": true
 }
